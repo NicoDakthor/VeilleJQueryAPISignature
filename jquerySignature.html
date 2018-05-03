@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Jquery UI Signature</title>
+		<link href="jquery-ui.css" rel="stylesheet">
+		<link href="jquery.signature.css" rel="stylesheet">
+		<style>
+		 #signature,#prev{
+		 width: 300px;
+		 height: 200px;
+		 }
+		</style>
+		<!--[if IE]>
+		<script src="excanvas.js"></script>
+		<![endif]-->
+		<script src="jquery-3.3.1.js"></script>
+		<script src="jquery-ui.js"></script>
+		<script src="jquery.signature.js"></script>
+		<script src='jquery.ui.touch-punch.js'></script>
+		<script src='download.js'></script>
+		<script>
+		$(function() {
+		 
+		 // Initialize
+		 $('#signature').signature();
+
+		 // Clear signature area
+		 $('#clear').click(function() {
+		  $('#signature').signature('clear');
+		 });
+
+		 // Get JSON response and show preview
+		 $('#but_prev').click(function() {
+		  var output = $('#signature').signature('toJSON');
+		  $('#json_output').val(output);
+		  //$('#prev').signature('draw', $('#json_output').val());
+
+			// On set l'image
+			$('#image').attr("src", $('#signature').signature('toDataURL'));
+			
+			download($('#signature').signature('toDataURL'), 'MaSignature');
+		  
+		 });
+		 //$('#prev').signature({disabled: false}); 
+		 
+		 
+		$('#callget').click(function() {
+			$.ajax({
+				type: 'GET',
+				url: 'https://jsonplaceholder.typicode.com/posts',
+				data: '',
+				timeout: 2000,
+				dataType:'json',
+				success: function(data){
+				
+				var items = [];
+				$(data).each(function(i,val){	
+					$.each(val,function(k,v){
+						//console.log(k+" : "+ v);
+						items.push(k+" : "+ v);							  
+					});
+				});
+				  
+				alert(items);
+				  
+				},
+				error: function(){
+				  alert('Cette requête AJAX n\'a pas abouti');
+				}
+			});
+		});			 
+		
+		 $('#callpost').click(function() {
+		 
+			
+		 
+		});			 
+		 
+		 
+		});
+		</script>
+	</head>
+	<body>
+	<button id="callget">GET</button> 
+	<button id="callpost">POST</button> 
+	
+		<!-- Signature -->
+		<div id="signature"></div>
+		<div style="clear: both;"><button id="clear">Clear</button> 
+		 <button id="but_prev">Preview</button>
+		</div>
+		<textarea id='json_output'></textarea><br/>
+
+		<!-- Preview -->
+		<!--<div id='prev'></div> -->
+		
+		<img id='image'></img>
+
+	</body>
+</html>

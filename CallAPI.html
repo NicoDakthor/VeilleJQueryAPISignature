@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Call API</title>
+		<script src="jquery-3.3.1.js"></script>
+		<script>
+		$(function() {
+		 
+		$('#callget').click(function() {
+			$.ajax({
+				type: 'GET',
+				url: 'https://jsonplaceholder.typicode.com/posts',
+				data: '',
+				timeout: 2000,
+				dataType:'json',
+				success: function(data){
+				
+				var items = [];
+				$(data).each(function(i,val){	
+					$.each(val,function(k,v){
+						//console.log(k+" : "+ v);
+						items.push(k+" : "+ v);							  
+					});
+				});
+				  
+				alert(items);
+				  
+				},
+				error: function(xhr, status, error){
+				  alert('Cette requête AJAX n\'a pas abouti');
+				}
+			});
+		});			 
+		
+		 $('#callpost').click(function() {
+			$.ajax({
+				type: 'POST',
+				url: 'https://jsonplaceholder.typicode.com/posts',
+				body: JSON.stringify({
+					title: 'foo',
+					body: 'bar',
+					userId: 1
+				}),
+				headers: {
+				  "Content-type": "application/json; charset=UTF-8"
+				},
+				dataType:'json',
+				success: function(data){
+				
+				var items = [];
+				$(data).each(function(i,val){	
+					$.each(val,function(k,v){
+						//console.log(k+" : "+ v);
+						items.push(k+" : "+ v);							  
+					});
+				});
+				
+				alert(items);
+				  
+				},
+				error: function(xhr, status, error){
+				  alert('Cette requête AJAX n\'a pas abouti');
+				}
+			});
+		 
+		});			 
+		 
+		 
+		});
+		</script>
+	</head>
+	<body>
+		<button id="callget">GET</button> 
+		<button id="callpost">POST</button> 
+	</body>
+</html>
